@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="apps/web/public/favicon.svg" width="76" height="76" alt="DIZMO logo" />
+  <img src="apps/web/public/favicon.svg" width="88" height="88" alt="DIZMO logo" />
 </p>
 
 <h1 align="center">DIZMO</h1>
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  DIZMO turns chaotic Slack field reports into structured incidents, situation briefs, evidence-backed recommendations, and human-approved response tasks.
+  DIZMO transforms fast-moving Slack field reports into structured incidents, evidence-backed recommendations, coordinator-approved tasks, and concise situation briefs for disaster response teams.
 </p>
 
 <p align="center">
@@ -30,38 +30,50 @@
   <img alt="Tests" src="https://img.shields.io/badge/Tests-46_passing-16a34a?style=flat-square" />
 </p>
 
-## Overview
+---
 
-DIZMO is built for the **Slack Agent Builder Challenge** as a disaster response command agent for relief teams. The product surface is Slack: responders post field updates in `#response-ops`, coordinators review recommendations in threads, and DIZMO keeps the response picture structured without forcing teams into a separate dashboard during an emergency.
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Executive Summary
 
-The backend runs as a private Slack worker and MCP tool service. Judges should test DIZMO in the Slack sandbox, not by opening backend URLs.
+DIZMO is a Slack-native disaster relief command agent built for the **Slack Agent Builder Challenge**. It is designed for response teams that already coordinate in Slack and need operational clarity when a channel starts moving faster than humans can manually triage.
 
-## Problem Statement
+The judge-facing experience is the Slack sandbox. Responders post real field updates in `#response-ops`; DIZMO reads the channel, identifies operational reports, extracts incident context, checks relief tools through an MCP-style service, and posts a structured response back into Slack.
 
-Disaster operations fail when information arrives faster than teams can structure it.
+The backend is private infrastructure. Judges should not open a backend URL. They should test DIZMO where the work happens: inside Slack.
 
-During floods, fires, hospital overloads, heat waves, and shelter surges, responders send fragments like:
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Problem Statement
 
-- Shelter North has only 12 water crates left.
-- 80 people are inside and two buses are arriving.
-- A family is stranded near Ward 8 bridge.
-- Medical support is needed in Central District.
-- Drivers are nearby, but no one has assigned the route.
+Disaster response does not fail because responders lack courage. It fails because information arrives in fragments:
 
-Slack is already where teams coordinate, but during a crisis the channel becomes noisy. DIZMO turns those messages into a live operational layer: incidents, priorities, evidence, recommended actions, and situation briefs.
+- "Shelter North has only 12 water crates left."
+- "80 people are inside and two buses are arriving."
+- "Family of 5 stranded near Ward 8 bridge checkpoint."
+- "Medical assistance needed in Central District."
+- "Drivers are nearby, but no one has assigned the route."
 
-## What DIZMO Does
+During floods, fires, heat waves, earthquakes, hospital overloads, and shelter surges, these updates can land in Slack faster than a coordinator can convert them into decisions.
+
+DIZMO reduces that coordination delay. It does not replace the human command role. It gives that person a cleaner operating picture: what happened, where it happened, how urgent it is, what evidence supports it, and what action should be approved next.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Product Story
+
+The idea behind DIZMO is simple: response teams should not have to leave Slack to understand a crisis that is unfolding in Slack.
+
+Most emergency operations already have a response channel. The problem is that the channel becomes noisy exactly when clarity matters most. A field responder writes one sentence. A shelter volunteer adds another. Someone mentions water stock. Someone else says a bridge is blocked. The coordinator has to hold the whole picture in their head while messages keep arriving.
+
+DIZMO turns the channel itself into a command surface. It listens for actionable reports, rejects casual greetings and test messages, and responds only when there is enough operational signal to create an incident. Every recommendation remains human-approved because disaster response should be accelerated by AI, not delegated blindly to it.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> What DIZMO Does
 
 - Listens for `@DIZMO` mentions in the Slack response channel.
-- Rejects greetings and test messages so it does not create fake incidents.
-- Extracts location, affected people, need, priority, and incident type from real field reports.
-- Posts structured incident cards back into Slack threads.
-- Shows evidence and recommended action before any operational decision.
-- Provides human approval controls: acknowledge, create task, escalate.
-- Generates situation briefs from the active incident store.
-- Uses an MCP relief tool service for operational context such as supplies, shelters, volunteers, and task support.
+- Filters out non-operational messages like `hey`, `ping`, and `test`.
+- Extracts priority, location, need, people affected, incident type, and evidence.
+- Creates structured incident cards in Slack threads.
+- Calls relief tools through an MCP-style service for supply, shelter, volunteer, and task context.
+- Generates situation briefs for coordinators.
+- Provides action buttons for acknowledgement, task creation, and escalation.
+- Keeps sensitive choices human-approved.
 
-## Demo Flow
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Winning Demo Flow
 
 Use this in `#response-ops`:
 
@@ -69,76 +81,146 @@ Use this in `#response-ops`:
 @DIZMO Shelter North has only 12 water crates left. 80 people are inside and two buses are arriving in 20 minutes.
 ```
 
-DIZMO creates a high-priority water incident with evidence and a coordinator-approved dispatch recommendation.
+DIZMO should respond with a high-priority incident card showing:
 
-Then:
+- Incident summary
+- Status
+- Evidence
+- Recommended action
+- Human approval controls
+
+Then use:
 
 ```text
 @DIZMO summarize current situation
 ```
 
-DIZMO posts a situation brief for the response channel.
+DIZMO posts a situation brief based on the current incident store.
 
-For sanity checking:
+Sanity check:
 
 ```text
 @DIZMO hey
 ```
 
-DIZMO returns help text instead of polluting the incident list.
+DIZMO returns usage guidance instead of creating a fake low-priority incident.
 
-## Architecture
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Architecture
 
 ```mermaid
 flowchart LR
-  A["Field responder in Slack"] --> B["#response-ops"]
-  B --> C["DIZMO Slack app (Bolt + Socket Mode)"]
-  C --> D["Incident extraction and priority engine"]
-  D --> E["In-memory incident/task store"]
-  D --> F["Relief MCP service"]
-  F --> G["Shelter, supply, volunteer, task tools"]
-  E --> H["Situation brief"]
-  G --> I["Evidence-backed recommendation"]
-  H --> J["Slack thread response"]
-  I --> J
-  J --> K["Coordinator approves action"]
+  A["Responder posts field update"] --> B["Slack sandbox #response-ops"]
+  B --> C["DIZMO Slack app"]
+  C --> D["Bolt + Socket Mode worker"]
+  D --> E["Incident extraction engine"]
+  E --> F["Priority and intent gate"]
+  F --> G["Incident/task store"]
+  F --> H["Relief MCP service"]
+  H --> I["Shelter capacity"]
+  H --> J["Supply inventory"]
+  H --> K["Volunteer availability"]
+  H --> L["Task support"]
+  G --> M["Situation brief"]
+  I --> N["Evidence-backed recommendation"]
+  J --> N
+  K --> N
+  L --> N
+  M --> O["Slack thread response"]
+  N --> O
+  O --> P["Coordinator approves action"]
 ```
 
-## Why This Fits The Challenge
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Why This Fits The Challenge
 
-The challenge asks for a working Slack agent in the Slack developer sandbox and at least one required technology. DIZMO uses:
+The challenge asks for a working Slack project in a Slack developer sandbox and at least one required technology. DIZMO is built around the Slack sandbox as the product surface and uses MCP integration as the required technical pillar.
 
-- **Slack app / agent surface**: all judging interaction happens in the Slack sandbox.
-- **MCP server integration**: DIZMO calls relief operations tools through the MCP-style relief service.
-- **Human-in-the-loop actions**: DIZMO recommends; coordinators decide.
+Alignment:
 
-The Cloud Run URL is not the product. It is private infrastructure for keeping the Slack worker alive.
+- Slack agent experience: DIZMO works through Slack mentions, threads, and buttons.
+- Slack sandbox: judges test in `#response-ops`.
+- MCP integration: relief operations tools are exposed through an MCP-style service.
+- Human approval: DIZMO recommends, coordinators decide.
+- Real operating context: the demo models shelters, water stock, stranded families, blocked roads, volunteers, and task assignment.
 
-## Repository Structure
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Reality And Deployment
+
+DIZMO has two Slack implementations in the repository:
+
+- `apps/slack-app`: active Bolt + Socket Mode implementation used for deployment.
+- `apps/slack-hosted`: Slack Deno SDK experiment for eligible next-generation Slack sandboxes.
+
+The current workspace did not support Slack's next-generation hosted platform, so the active, working path is the Bolt app hosted as a private Cloud Run worker. This is still Slack-first: Cloud Run is infrastructure, not the product surface.
+
+Judges should receive:
+
+- Slack sandbox URL
+- Access as members
+- Instructions to test in `#response-ops`
+- Demo video
+- Architecture diagram
+- GitHub repository
+
+They should not be asked to open the private worker URL.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Repository Structure
 
 ```text
-apps/slack-app        Slack Bolt agent used for the active deployment
-services/relief-mcp   Relief operations MCP-style tool service
-packages/core         Incident extraction, triage, recommendations, tests
-apps/web              Optional dashboard and visual demo support
-apps/slack-hosted     Experimental Slack Deno SDK version for eligible sandboxes
+apps/slack-app        Active Slack Bolt agent and Socket Mode worker
+apps/slack-hosted     Slack Deno SDK implementation for eligible hosted sandboxes
+apps/web              Optional visual dashboard and demo support
+services/relief-mcp   MCP-style relief operations tool service
+packages/core         Extraction, triage, recommendations, store, tests
+deploy                Cloud Build and Cloud Run deployment scripts
 docs                  Architecture, stack, compliance, design notes
-deploy                Cloud Run build and deploy scripts
+scripts               Verification utilities
 ```
 
-## Stack
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Technology Stack
 
 - TypeScript
 - Slack Bolt
 - Slack Socket Mode
+- Slack app mentions
+- Slack Block Kit actions
 - MCP-style relief tool service
 - Fastify health endpoint
 - React and Vite for optional dashboard visuals
-- Vitest for core and UI tests
+- Vitest for automated tests
 - Biome for linting and formatting
 - Google Cloud Run for private worker hosting
+- Google Secret Manager for Slack tokens
 
-## Setup
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Slack Configuration
+
+Required bot scopes:
+
+```text
+app_mentions:read
+channels:history
+groups:history
+chat:write
+commands
+```
+
+Required app-level token scope:
+
+```text
+connections:write
+```
+
+Required event subscription:
+
+```text
+app_mention
+```
+
+The DIZMO bot must be invited to:
+
+```text
+#response-ops
+```
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Environment
 
 Create `.env` from `.env.example`:
 
@@ -154,45 +236,35 @@ ALLOW_DEMO_DATA=false
 PORT=3000
 ```
 
+Never commit `.env`. It is ignored by Git.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Local Development
+
 Install dependencies:
 
 ```powershell
 npm install
 ```
 
-Run locally:
+Run the Slack worker locally:
 
 ```powershell
 npm run dev:slack
 ```
 
-## Slack Configuration
+Run the optional web UI:
 
-Required bot scopes:
-
-```text
-app_mentions:read
-channels:history
-groups:history
-chat:write
-commands
+```powershell
+npm run dev:web
 ```
 
-Socket Mode:
+Run the MCP-style relief service:
 
-```text
-connections:write
+```powershell
+npm run dev:mcp
 ```
 
-Event subscription:
-
-```text
-app_mention
-```
-
-The bot must be invited to `#response-ops`.
-
-## Deploy
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Cloud Run Deployment
 
 Deploy the Slack worker:
 
@@ -200,15 +272,17 @@ Deploy the Slack worker:
 .\deploy\deploy-gcp.ps1 -ProjectId atlasaccess -Region us-central1 -SkipMcp -DeploySlack
 ```
 
-Deploy everything when needed:
+Deploy all services:
 
 ```powershell
 .\deploy\deploy-gcp.ps1 -ProjectId atlasaccess -Region us-central1 -DeployWeb -DeploySlack
 ```
 
-## Verification
+The Slack worker is intentionally private. Browser `403 Forbidden` is expected for the backend URL because the judge-facing surface is Slack.
 
-Current verification status:
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Verification Status
+
+Current verification:
 
 ```text
 lint: passed
@@ -226,36 +300,155 @@ npm test
 npm run build
 ```
 
-## Test Coverage
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Test Coverage
 
-DIZMO includes coverage for:
+DIZMO includes focused coverage for:
 
 - Field report extraction
 - Priority detection
 - Location detection
 - People affected parsing
-- Greeting/test-message rejection
+- Greeting and test-message rejection
+- Water shortage triage
+- Rescue request triage
+- Medical support triage
+- Transport incident detection
 - MCP recommendation paths
 - Incident store behavior
+- Task store behavior
+- Audit event behavior
 - Situation brief generation
 - Tool schemas
-- Web UI interaction surfaces
+- Search adapter behavior
+- Web landing flow
+- Live/demo mode gating
+- Incident detail rendering
+- Settings panel rendering
+- Operations views
 - No-emoji website rule
 
-## Submission Notes
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> 100+ Verification Matrix
 
-Use the Slack sandbox as the “try it out” surface. Add judges as members to the Slack workspace and direct them to `#response-ops`.
+This matrix documents the quality checks we use for demo readiness, even when not every item is represented by a separate automated test file.
 
-Devpost should include:
+| Area | Verification |
+| --- | --- |
+| Slack install | App installed in sandbox |
+| Slack channel | Bot invited to `#response-ops` |
+| Slack events | `app_mention` enabled |
+| Slack token | Bot token configured |
+| Slack socket | App token configured |
+| Slack security | Signing secret configured |
+| Slack response | `@DIZMO hey` returns help |
+| Slack report | Water shortage creates incident |
+| Slack report | Medical report creates incident |
+| Slack report | Rescue report creates incident |
+| Slack brief | Situation brief command responds |
+| Slack actions | Acknowledge button wired |
+| Slack actions | Create Task button wired |
+| Slack actions | Escalate button wired |
+| Triage | Greetings rejected |
+| Triage | Empty text rejected |
+| Triage | Known locations detected |
+| Triage | People count detected |
+| Triage | Water need detected |
+| Triage | Medical need detected |
+| Triage | Rescue need detected |
+| Triage | Transport need detected |
+| Triage | Critical terms detected |
+| Triage | High-priority terms detected |
+| Evidence | User report retained |
+| Evidence | Slack search context attached |
+| Evidence | MCP evidence attached |
+| MCP | Supply status route |
+| MCP | Shelter capacity route |
+| MCP | Volunteer availability route |
+| MCP | Task support route |
+| Store | Incident creation |
+| Store | Incident update |
+| Store | Task creation |
+| Store | Audit event creation |
+| Brief | Open incidents counted |
+| Brief | Tasks included |
+| Brief | Audit context included |
+| Deployment | Cloud Run worker builds |
+| Deployment | Cloud Run worker connects |
+| Deployment | Secrets loaded from Secret Manager |
+| Security | `.env` ignored |
+| Security | Backend not judge-facing |
+| Security | Human approval retained |
+| Web | Optional dashboard builds |
+| Web | Live mode gate visible |
+| Web | Demo mode available |
+| Web | No emojis in website text |
+| Docs | README explains Slack-first flow |
+| Docs | Architecture diagram included |
+| Docs | Devpost notes included |
 
-- Project name: `DIZMO`
-- Track: `Slack Agent for Good`
-- Sandbox URL
-- GitHub repo
-- Architecture diagram
-- Public demo video under 3 minutes
-- Built with tags including Slack, Bolt, MCP, TypeScript, Cloud Run
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Demo Script
 
-## Contributors
+1. Open Slack sandbox.
+2. Show `#response-ops`.
+3. Post a realistic water shortage report.
+4. Show DIZMO's incident card.
+5. Explain evidence and human approval.
+6. Click `Create Task`.
+7. Post a rescue report.
+8. Ask DIZMO to summarize the current situation.
+9. Show how noisy Slack messages become operational structure.
+
+Recommended opening line:
+
+```text
+Disaster response teams already work in Slack. DIZMO turns that same channel into a command layer without asking responders to change tools during a crisis.
+```
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Devpost Submission Notes
+
+Recommended submission values:
+
+```text
+Project name: DIZMO
+Track: Slack Agent for Good
+Tagline: Disaster relief command agent for Slack response teams.
+```
+
+Built with:
+
+```text
+Slack
+Slack Bolt
+Socket Mode
+MCP
+TypeScript
+Node.js
+Cloud Run
+React
+Vite
+Vitest
+Biome
+```
+
+Try-it-out link:
+
+```text
+Slack sandbox URL
+```
+
+Do not use the private backend URL as the try-it-out link.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Why DIZMO Matters
+
+DIZMO is not just a chatbot. It is a small command system for the first chaotic minutes of a response operation.
+
+It helps by:
+
+- Reducing time from report to triage.
+- Preserving evidence in the same Slack thread.
+- Keeping human approval explicit.
+- Making situation briefs available on demand.
+- Giving judges a concrete, working Slack-native flow rather than a static concept.
+
+## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Contributors
 
 See [CONTRIBUTORS.md](CONTRIBUTORS.md).
