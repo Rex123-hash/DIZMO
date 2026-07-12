@@ -32,7 +32,7 @@
 
 ---
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Executive Summary
+## <img src="docs/readme-icons/spark.svg" width="22" alt="" /> Executive Summary
 
 DIZMO is a Slack-native disaster relief command agent built for the **Slack Agent Builder Challenge**. It is designed for response teams that already coordinate in Slack and need operational clarity when a channel starts moving faster than humans can manually triage.
 
@@ -40,7 +40,7 @@ The judge-facing experience is the Slack sandbox. Responders post real field upd
 
 The backend is private infrastructure. Judges should not open a backend URL. They should test DIZMO where the work happens: inside Slack.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Problem Statement
+## <img src="docs/readme-icons/shield.svg" width="22" alt="" /> Problem Statement
 
 Disaster response does not fail because responders lack courage. It fails because information arrives in fragments:
 
@@ -54,7 +54,7 @@ During floods, fires, heat waves, earthquakes, hospital overloads, and shelter s
 
 DIZMO reduces that coordination delay. It does not replace the human command role. It gives that person a cleaner operating picture: what happened, where it happened, how urgent it is, what evidence supports it, and what action should be approved next.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Product Story
+## <img src="docs/readme-icons/brief.svg" width="22" alt="" /> Product Story
 
 The idea behind DIZMO is simple: response teams should not have to leave Slack to understand a crisis that is unfolding in Slack.
 
@@ -62,7 +62,7 @@ Most emergency operations already have a response channel. The problem is that t
 
 DIZMO turns the channel itself into a command surface. It listens for actionable reports, rejects casual greetings and test messages, and responds only when there is enough operational signal to create an incident. Every recommendation remains human-approved because disaster response should be accelerated by AI, not delegated blindly to it.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> What DIZMO Does
+## <img src="docs/readme-icons/grid.svg" width="22" alt="" /> What DIZMO Does
 
 - Listens for `@DIZMO` mentions in the Slack response channel.
 - Filters out non-operational messages like `hey`, `ping`, and `test`.
@@ -73,7 +73,7 @@ DIZMO turns the channel itself into a command surface. It listens for actionable
 - Provides action buttons for acknowledgement, task creation, and escalation.
 - Keeps sensitive choices human-approved.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Winning Demo Flow
+## <img src="docs/readme-icons/command.svg" width="22" alt="" /> Winning Demo Flow
 
 Use this in `#response-ops`:
 
@@ -105,7 +105,7 @@ Sanity check:
 
 DIZMO returns usage guidance instead of creating a fake low-priority incident.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Architecture
+## <img src="docs/readme-icons/layers.svg" width="22" alt="" /> Architecture
 
 ```mermaid
 flowchart LR
@@ -130,7 +130,7 @@ flowchart LR
   O --> P["Coordinator approves action"]
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Why This Fits The Challenge
+## <img src="docs/readme-icons/shield.svg" width="22" alt="" /> Why This Fits The Challenge
 
 The challenge asks for a working Slack project in a Slack developer sandbox and at least one required technology. DIZMO is built around the Slack sandbox as the product surface and uses MCP integration as the required technical pillar.
 
@@ -142,7 +142,7 @@ Alignment:
 - Human approval: DIZMO recommends, coordinators decide.
 - Real operating context: the demo models shelters, water stock, stranded families, blocked roads, volunteers, and task assignment.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Reality And Deployment
+## <img src="docs/readme-icons/deploy.svg" width="22" alt="" /> Reality And Deployment
 
 DIZMO has two Slack implementations in the repository:
 
@@ -162,7 +162,7 @@ Judges should receive:
 
 They should not be asked to open the private worker URL.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Repository Structure
+## <img src="docs/readme-icons/grid.svg" width="22" alt="" /> Repository Structure
 
 ```text
 apps/slack-app        Active Slack Bolt agent and Socket Mode worker
@@ -175,7 +175,7 @@ docs                  Architecture, stack, compliance, design notes
 scripts               Verification utilities
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Technology Stack
+## <img src="docs/readme-icons/layers.svg" width="22" alt="" /> Technology Stack
 
 - TypeScript
 - Slack Bolt
@@ -190,7 +190,7 @@ scripts               Verification utilities
 - Google Cloud Run for private worker hosting
 - Google Secret Manager for Slack tokens
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Slack Configuration
+## <img src="docs/readme-icons/command.svg" width="22" alt="" /> Slack Configuration
 
 Required bot scopes:
 
@@ -220,7 +220,7 @@ The DIZMO bot must be invited to:
 #response-ops
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Environment
+## <img src="docs/readme-icons/shield.svg" width="22" alt="" /> Environment
 
 Create `.env` from `.env.example`:
 
@@ -238,7 +238,7 @@ PORT=3000
 
 Never commit `.env`. It is ignored by Git.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Local Development
+## <img src="docs/readme-icons/command.svg" width="22" alt="" /> Local Development
 
 Install dependencies:
 
@@ -264,7 +264,7 @@ Run the MCP-style relief service:
 npm run dev:mcp
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Cloud Run Deployment
+## <img src="docs/readme-icons/deploy.svg" width="22" alt="" /> Cloud Run Deployment
 
 Deploy the Slack worker:
 
@@ -280,7 +280,7 @@ Deploy all services:
 
 The Slack worker is intentionally private. Browser `403 Forbidden` is expected for the backend URL because the judge-facing surface is Slack.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Verification Status
+## <img src="docs/readme-icons/test.svg" width="22" alt="" /> Verification Status
 
 Current verification:
 
@@ -300,7 +300,7 @@ npm test
 npm run build
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Test Coverage
+## <img src="docs/readme-icons/test.svg" width="22" alt="" /> Test Coverage
 
 DIZMO includes focused coverage for:
 
@@ -327,7 +327,7 @@ DIZMO includes focused coverage for:
 - Operations views
 - No-emoji website rule
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> 100+ Verification Matrix
+## <img src="docs/readme-icons/grid.svg" width="22" alt="" /> 100+ Verification Matrix
 
 This matrix documents the quality checks we use for demo readiness, even when not every item is represented by a separate automated test file.
 
@@ -385,7 +385,7 @@ This matrix documents the quality checks we use for demo readiness, even when no
 | Docs | Architecture diagram included |
 | Docs | Devpost notes included |
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Demo Script
+## <img src="docs/readme-icons/brief.svg" width="22" alt="" /> Demo Script
 
 1. Open Slack sandbox.
 2. Show `#response-ops`.
@@ -403,7 +403,7 @@ Recommended opening line:
 Disaster response teams already work in Slack. DIZMO turns that same channel into a command layer without asking responders to change tools during a crisis.
 ```
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Devpost Submission Notes
+## <img src="docs/readme-icons/spark.svg" width="22" alt="" /> Devpost Submission Notes
 
 Recommended submission values:
 
@@ -437,7 +437,7 @@ Slack sandbox URL
 
 Do not use the private backend URL as the try-it-out link.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Why DIZMO Matters
+## <img src="docs/readme-icons/shield.svg" width="22" alt="" /> Why DIZMO Matters
 
 DIZMO is not just a chatbot. It is a small command system for the first chaotic minutes of a response operation.
 
@@ -449,6 +449,6 @@ It helps by:
 - Making situation briefs available on demand.
 - Giving judges a concrete, working Slack-native flow rather than a static concept.
 
-## <img src="apps/web/public/favicon.svg" width="20" alt="" /> Contributors
+## <img src="docs/readme-icons/brief.svg" width="22" alt="" /> Contributors
 
 See [CONTRIBUTORS.md](CONTRIBUTORS.md).
