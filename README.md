@@ -19,6 +19,10 @@
   &nbsp;|&nbsp;
   <a href="docs/REALITY_STATUS.md">Reality Status</a>
   &nbsp;|&nbsp;
+  <a href="https://app.slack.com/client/T0BGV92F0D7/C0BHMNU8PB2">Slack Demo Channel</a>
+  &nbsp;|&nbsp;
+  <a href="https://dizmo-web-526660427489.us-central1.run.app">Optional Dashboard</a>
+  &nbsp;|&nbsp;
   <a href="CONTRIBUTORS.md">Contributors</a>
 </p>
 
@@ -39,6 +43,15 @@ DIZMO is a Slack-native disaster relief command agent built for the **Slack Agen
 The judge-facing experience is the Slack sandbox. Responders post real field updates in `#response-ops`; DIZMO reads the channel, identifies operational reports, extracts incident context, checks relief tools through an MCP-style service, and posts a structured response back into Slack.
 
 The backend is private infrastructure. Judges should not open a backend URL. They should test DIZMO where the work happens: inside Slack.
+
+## <img src="docs/readme-icons/dizmo-command.svg" width="22" alt="" /> Important Links
+
+| Surface | Link | Purpose |
+| --- | --- | --- |
+| Slack demo channel | [#response-ops](https://app.slack.com/client/T0BGV92F0D7/C0BHMNU8PB2) | Primary judge-facing product surface |
+| Optional dashboard | [DIZMO web dashboard](https://dizmo-web-526660427489.us-central1.run.app) | Visual support for screenshots and demo context |
+| GitHub repository | [Rex123-hash/DIZMO](https://github.com/Rex123-hash/DIZMO) | Source code, README, architecture, tests |
+| Slack worker backend | Private Cloud Run service | Infrastructure only; not a judge-facing link |
 
 ## <img src="docs/readme-icons/dizmo-shield.svg" width="22" alt="" /> Problem Statement
 
