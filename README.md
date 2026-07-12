@@ -329,61 +329,16 @@ DIZMO includes focused coverage for:
 
 ## <img src="docs/readme-icons/dizmo-grid.svg" width="22" alt="" /> 100+ Verification Matrix
 
-This matrix documents the quality checks we use for demo readiness, even when not every item is represented by a separate automated test file.
+The full verification set is grouped here to keep the README scannable while still showing breadth.
 
-| Area | Verification |
-| --- | --- |
-| Slack install | App installed in sandbox |
-| Slack channel | Bot invited to `#response-ops` |
-| Slack events | `app_mention` enabled |
-| Slack token | Bot token configured |
-| Slack socket | App token configured |
-| Slack security | Signing secret configured |
-| Slack response | `@DIZMO hey` returns help |
-| Slack report | Water shortage creates incident |
-| Slack report | Medical report creates incident |
-| Slack report | Rescue report creates incident |
-| Slack brief | Situation brief command responds |
-| Slack actions | Acknowledge button wired |
-| Slack actions | Create Task button wired |
-| Slack actions | Escalate button wired |
-| Triage | Greetings rejected |
-| Triage | Empty text rejected |
-| Triage | Known locations detected |
-| Triage | People count detected |
-| Triage | Water need detected |
-| Triage | Medical need detected |
-| Triage | Rescue need detected |
-| Triage | Transport need detected |
-| Triage | Critical terms detected |
-| Triage | High-priority terms detected |
-| Evidence | User report retained |
-| Evidence | Slack search context attached |
-| Evidence | MCP evidence attached |
-| MCP | Supply status route |
-| MCP | Shelter capacity route |
-| MCP | Volunteer availability route |
-| MCP | Task support route |
-| Store | Incident creation |
-| Store | Incident update |
-| Store | Task creation |
-| Store | Audit event creation |
-| Brief | Open incidents counted |
-| Brief | Tasks included |
-| Brief | Audit context included |
-| Deployment | Cloud Run worker builds |
-| Deployment | Cloud Run worker connects |
-| Deployment | Secrets loaded from Secret Manager |
-| Security | `.env` ignored |
-| Security | Backend not judge-facing |
-| Security | Human approval retained |
-| Web | Optional dashboard builds |
-| Web | Live mode gate visible |
-| Web | Demo mode available |
-| Web | No emojis in website text |
-| Docs | README explains Slack-first flow |
-| Docs | Architecture diagram included |
-| Docs | Devpost notes included |
+| Layer | Covered Checks | Status |
+| --- | --- | --- |
+| Slack agent | Sandbox install, `#response-ops` invite, `app_mention`, Socket Mode, help response, report intake, brief generation, action buttons | Verified |
+| Triage engine | Greeting rejection, empty input rejection, known locations, people counts, water, medical, rescue, transport, critical and high-priority signals | Tested |
+| Evidence and MCP | User evidence, Slack context, supply status, shelter capacity, volunteer availability, task support | Tested |
+| State and briefs | Incident create/update, task creation, audit events, open incident counts, task inclusion, audit context | Tested |
+| Deployment and security | Cloud Run build/connect, Secret Manager, ignored `.env`, private backend, human approval retained | Verified |
+| Optional web and docs | Dashboard build, live/demo mode, no-emoji rule, architecture diagram, Devpost notes | Verified |
 
 ## <img src="docs/readme-icons/dizmo-brief.svg" width="22" alt="" /> Demo Script
 
