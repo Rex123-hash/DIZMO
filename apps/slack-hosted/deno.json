@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "check": "deno check manifest.ts triggers/*.ts functions/*.ts workflows/*.ts datastores/*.ts lib/*.ts",
+    "fmt": "deno fmt",
+    "test": "deno test --allow-none"
+  },
+  "imports": {
+    "deno-slack-api/": "https://deno.land/x/deno_slack_api@2.8.0/",
+    "deno-slack-sdk/": "https://deno.land/x/deno_slack_sdk@2.15.0/"
+  }
+}

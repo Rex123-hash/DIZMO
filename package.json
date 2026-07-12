@@ -1,0 +1,38 @@
+{
+  "name": "dizmo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DIZMO: Disaster Intelligence Zone Management Operator for Slack disaster response coordination.",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @dizmo/core && npm run build -w @dizmo/slack-app && npm run build -w @dizmo/relief-mcp && npm run build -w @dizmo/web",
+    "dev:web": "npm run dev -w @dizmo/web",
+    "dev:slack": "npm run dev -w @dizmo/slack-app",
+    "dev:mcp": "npm run dev -w @dizmo/relief-mcp",
+    "format": "biome format --write .",
+    "lint": "biome check .",
+    "react:doctor": "react-doctor apps/web --no-score --blocking none",
+    "test": "npm run test -w @dizmo/core && npm run test -w @dizmo/web",
+    "typecheck": "npm run build -w @dizmo/core && npm run typecheck -w @dizmo/slack-app && npm run typecheck -w @dizmo/relief-mcp && npm run typecheck -w @dizmo/web && npm run typecheck -w @dizmo/core",
+    "verify:web": "node scripts/verify-web.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.1.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.0.13",
+    "jsdom": "^29.1.1",
+    "playwright": "^1.61.1",
+    "react-doctor": "^0.7.6",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

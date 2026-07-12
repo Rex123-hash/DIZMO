@@ -1,0 +1,23 @@
+{
+  "name": "@dizmo/slack-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@dizmo/core": "file:../../packages/core",
+    "@slack/bolt": "^4.4.0",
+    "dotenv": "^17.2.0",
+    "fastify": "^5.4.0",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
