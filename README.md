@@ -5,7 +5,7 @@
 <h1 align="center">DIZMO</h1>
 
 <p align="center">
-  <strong>The Disaster Relief Command Agent for Slack</strong>
+  <strong><font color="#2563EB">The Disaster Relief Command Agent for Slack</font></strong>
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-  <img alt="Slack" src="https://img.shields.io/badge/Slack-Agent-4A154B?style=flat-square" />
+  <img alt="Slack" src="https://img.shields.io/badge/Slack-Agent-2563EB?style=flat-square" />
   <img alt="MCP" src="https://img.shields.io/badge/MCP-Relief_Tools-111827?style=flat-square" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.x-2563eb?style=flat-square" />
   <img alt="Cloud Run" src="https://img.shields.io/badge/Cloud_Run-Private_Worker-4285F4?style=flat-square" />
