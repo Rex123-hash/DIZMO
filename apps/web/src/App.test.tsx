@@ -11,7 +11,11 @@ describe("App", () => {
     fireEvent.click(screen.getAllByRole("button", { name: "Open Command" })[0] as HTMLElement);
 
     expect(screen.getByRole("heading", { name: "Overview" })).toBeInTheDocument();
-    expect(screen.getByText("Live Data Connection Required")).toBeInTheDocument();
+    expect(screen.getByText("Live Operations Run In Slack")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open Slack Channel" })).toHaveAttribute(
+      "href",
+      "https://app.slack.com/client/T0BGV92F0D7/C0BHMNU8PB2",
+    );
     expect(screen.queryByText("Open Incidents")).not.toBeInTheDocument();
   });
 

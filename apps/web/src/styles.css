@@ -161,6 +161,7 @@ button {
   padding: 0 18px;
   font-size: 13px;
   font-weight: 750;
+  text-decoration: none;
 }
 
 .primary-button {
@@ -920,7 +921,8 @@ button {
   gap: 12px;
 }
 
-.command-grid button {
+.command-grid button,
+.command-grid a {
   min-height: 38px;
   padding: 0 16px;
   border: 1px solid var(--border-strong);
@@ -928,6 +930,12 @@ button {
   background: #ffffff;
   color: var(--blue);
   font-weight: 750;
+}
+
+.command-grid a.primary-button {
+  color: #ffffff;
+  border-color: transparent;
+  background: var(--blue);
 }
 
 .ops-layout {

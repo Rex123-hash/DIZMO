@@ -25,6 +25,8 @@ export type ViewKey =
   | "settings";
 export type DataMode = "live" | "demo";
 
+const slackChannelUrl = "https://app.slack.com/client/T0BGV92F0D7/C0BHMNU8PB2";
+
 export function App(): React.JSX.Element {
   const [view, setView] = useState<ViewKey>("landing");
   const [dataMode, setDataMode] = useState<DataMode>("live");
@@ -37,11 +39,7 @@ export function App(): React.JSX.Element {
 
   function handleModeChange(mode: DataMode): void {
     setDataMode(mode);
-    setNotice(
-      mode === "live"
-        ? "Live mode enabled: waiting for Slack sandbox data"
-        : "Demo mode enabled: fictional fixture data visible",
-    );
+    setNotice(mode === "live" ? "Live operations are running in Slack" : "Demo mode enabled");
   }
 
   const shouldGateLiveData = dataMode === "live" && view !== "landing" && view !== "settings";
@@ -63,7 +61,11 @@ export function App(): React.JSX.Element {
         />
       ) : null}
       {shouldGateLiveData ? (
-        <LiveModePanel view={view} onOpenSettings={() => setView("settings")} />
+        <LiveModePanel
+          view={view}
+          onOpenSettings={() => setView("settings")}
+          onOpenDemo={() => setDataMode("demo")}
+        />
       ) : null}
       {dataMode === "demo" && view === "overview" ? (
         <DashboardHome
@@ -102,29 +104,43 @@ export function App(): React.JSX.Element {
 interface LiveModePanelProps {
   view: ViewKey;
   onOpenSettings: () => void;
+  onOpenDemo: () => void;
 }
 
-function LiveModePanel({ view, onOpenSettings }: LiveModePanelProps): React.JSX.Element {
+function LiveModePanel({
+  view,
+  onOpenSettings,
+  onOpenDemo,
+}: LiveModePanelProps): React.JSX.Element {
   return (
     <section className="page-stack">
       <header className="page-header">
         <h1>{titleForView(view)}</h1>
       </header>
       <article className="panel live-empty-state">
-        <h2>Live Data Connection Required</h2>
+        <h2>Live Operations Run In Slack</h2>
         <p>
-          Live mode never renders fixture incidents, fake resources, or seeded volunteer data.
-          Connect the Slack sandbox and live providers to populate this command view.
+          The active incident workflow is running in the Slack sandbox. This dashboard does not
+          mirror private Slack messages in Live mode, so judges should test DIZMO directly in
+          `#response-ops`.
         </p>
         <div className="live-checklist">
-          <span>Slack bot token configured</span>
-          <span>Slack app-level token configured</span>
-          <span>Slack response channel connected</span>
-          <span>Relief MCP service reachable</span>
+          <span>Slack bot connected through Socket Mode</span>
+          <span>Response channel: #response-ops</span>
+          <span>MCP relief service connected</span>
+          <span>Demo mode available for visual walkthroughs</span>
         </div>
-        <button type="button" className="primary-button compact" onClick={onOpenSettings}>
-          Open Settings
-        </button>
+        <div className="command-grid">
+          <a className="primary-button compact" href={slackChannelUrl}>
+            Open Slack Channel
+          </a>
+          <button type="button" className="secondary-button compact" onClick={onOpenDemo}>
+            View Demo Dashboard
+          </button>
+          <button type="button" className="secondary-button compact" onClick={onOpenSettings}>
+            Open Settings
+          </button>
+        </div>
       </article>
     </section>
   );
